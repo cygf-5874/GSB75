@@ -1,0 +1,12 @@
+{
+  "name": "csvlite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "轻量 CSV 读写库（方言与流式解析练习题）",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test",
+    "check": "node check/check.mjs"
+  }
+}
