@@ -16,7 +16,7 @@ export function format(rows, dialect) {
   const d = resolveDialect(dialect);
   return rows
     .map((row) => row.map((value) => formatField(value, d)).join(d.delimiter))
-    .join('\n');
+    .join(d.newline);
 }
 
 function formatField(value, d) {
@@ -24,7 +24,8 @@ function formatField(value, d) {
   if (!needsQuote(s, d)) return s;
   let out = '';
   for (const ch of s) {
-    if (ch === d.quote) out += d.quote + d.quote;
+    if (ch === d.quote) out += d.escape + d.quote;
+    else if (ch === d.escape && d.escape !== d.quote) out += d.escape + d.escape;
     else out += ch;
   }
   return d.quote + out + d.quote;
@@ -34,6 +35,7 @@ function needsQuote(s, d) {
   return (
     s.includes(d.delimiter) ||
     s.includes(d.quote) ||
+    (d.escape !== d.quote && s.includes(d.escape)) ||
     s.includes('\n') ||
     s.includes('\r')
   );
