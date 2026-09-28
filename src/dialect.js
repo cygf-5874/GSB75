@@ -19,5 +19,7 @@ export const DEFAULT_DIALECT = Object.freeze({
  */
 export function resolveDialect(dialect) {
   const d = { ...DEFAULT_DIALECT, ...(dialect ?? {}) };
+  // escape 未显式给出时默认等于 quote（即用双写表示一个字面 quote）。
+  if (dialect == null || dialect.escape === undefined) d.escape = d.quote;
   return d;
 }
